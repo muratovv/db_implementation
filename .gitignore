@@ -1,6 +1,8 @@
 ### Java template
 *.class
 
+db_implementation.iml
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
