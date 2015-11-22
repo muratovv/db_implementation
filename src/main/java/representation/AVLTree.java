@@ -1,5 +1,7 @@
 package representation;
 
+import java.util.ArrayList;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class AVLTree<T extends Comparable<T>> {
@@ -114,18 +116,13 @@ public class AVLTree<T extends Comparable<T>> {
         return parent;
     }
 
-    private String inorderToText="";
 
-    public String getInorderToText() {
-        return inorderToText;
-    }
-
-    <R> void  inOrder (MyNode<T> root, Function<T, R> map)
+     void  inOrder (MyNode<T> root, Function<T, Void> map)
     {
 
         if(root == null) return;
         inOrder(root.getLeft(),map);
-        inorderToText+=map.apply(root.value)+" ";
+        map.apply(root.value);
         inOrder(root.getRight(),map);
 
     }
