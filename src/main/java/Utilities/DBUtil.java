@@ -13,8 +13,7 @@ public class DBUtil
 	 */
 	public static class Separators
 	{
-		public static byte basic = '#';
-		public static byte node = '$';
+		public static byte basic = '\t';
 		public static byte row = '\n';
 
 		public static int findSep(byte[] arr, byte sep)

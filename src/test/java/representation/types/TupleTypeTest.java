@@ -36,8 +36,24 @@ public class TupleTypeTest
 	}
 
 	@Test
-	public void testStoreRestore() throws Exception
+	public void testStoreRestoreEasy() throws Exception
 	{
+		byte[] store = tupleType.store();
+		TupleType restore = ((TupleType) TupleType.factory.restore(store, scheme));
+		Assert.assertTrue(restore.compareTo(tupleType) == 0);
+	}
+
+	@Test
+	public void testStoreRestoreHard() throws Exception
+	{
+		ArrayList<Class> classes = new ArrayList<>();
+		classes.add(Str.class);
+		classes.add(Str.class);
+		scheme = new Scheme(classes);
+		tupleType = new TupleType(new BasicType[]{
+				new Str(),
+				new Int(99999)
+		});
 		byte[] store = tupleType.store();
 		TupleType restore = ((TupleType) TupleType.factory.restore(store, scheme));
 		Assert.assertTrue(restore.compareTo(tupleType) == 0);

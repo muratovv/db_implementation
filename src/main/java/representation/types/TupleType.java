@@ -1,11 +1,12 @@
 package representation.types;
 
+import Utilities.DBUtil;
 import exceptions.RestoreException;
 import store.Scheme;
 import store.Storable;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 /**
  * Represent tuple type of node
@@ -18,13 +19,22 @@ public class TupleType implements Storable, Comparable
 		public Storable restore(byte[] repr, Scheme scheme) throws RestoreException
 		{
 			ByteBuffer buffer = ByteBuffer.wrap(repr);
+			ArrayList<Integer> allSep = DBUtil.Separators.findAllSep(repr, DBUtil.Separators.basic);
 			BasicType[] values = new BasicType[scheme.getSize()];
 			byte[] dst;
-			int len;
 			for (int i = 0; i < values.length; i++)
 			{
-				//TODO 23.11.15
-				throw new NotImplementedException();
+				int typeSize = scheme.getTypeSize(i);
+				if (typeSize != -1)
+					dst = new byte[typeSize];
+				else
+				{
+					final int finalI = i;
+					int len = allSep.stream().filter(integer -> integer > allSep.get(finalI)).findFirst().get();
+					dst = new byte[len - allSep.get(i)];
+				}
+				buffer.get(dst);
+				values[i] = ((BasicType) scheme.getFactory(i).restore(dst, scheme));
 			}
 			TupleType tupleType = new TupleType();
 			tupleType.values = values;

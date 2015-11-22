@@ -1,6 +1,5 @@
 package store;
 
-import representation.types.BasicType;
 import representation.types.Int;
 import representation.types.Str;
 
@@ -31,13 +30,13 @@ public class Scheme
 	/**
 	 * @return static size of type(if exist) else -1
 	 */
-	public int getStaticSize(int index)
+	public int getTypeSize(int index)
 	{
 		if (scheme.get(index).equals(Int.class))
 			return Integer.BYTES;
 		else if (scheme.get(index).equals(Str.class))
 			return -1;
-		else return -1;
+		return 0;
 	}
 
 	public Class getClass(int index)
