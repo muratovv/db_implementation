@@ -278,6 +278,5 @@ public class AVLTree<T extends Comparable<T>>
 			node.right = removeMax(node.right);
 			return balance(node);
 		}
-		
 	}
 }
