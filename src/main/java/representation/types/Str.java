@@ -41,10 +41,4 @@ public class Str extends BasicType
 		}
 		return -1;
 	}
-
-	@Override
-	int getStaticSize()
-	{
-		return -1;
-	}
 }

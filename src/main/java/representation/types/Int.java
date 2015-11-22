@@ -48,10 +48,4 @@ public class Int extends BasicType implements Comparable
 	{
 		return Integer.BYTES + 1;
 	}
-
-	@Override
-	int getStaticSize()
-	{
-		return Integer.BYTES;
-	}
 }
