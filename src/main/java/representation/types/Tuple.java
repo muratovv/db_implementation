@@ -1,33 +1,33 @@
 package representation.types;
 
-import Utilities.DBUtil;
 import exceptions.RestoreException;
-import store.Scheme;
+import representation.scheme.TypeScheme;
 import store.Storable;
+import utilities.DBUtil;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Optional;
 
 /**
- * Represent tuple type of node
+ * Represent tuple from row
  */
-public class TupleType implements Storable, Comparable
+public class Tuple implements Storable, Comparable
 {
 	public static Storable.StoreFactory factory = new StoreFactory()
 	{
 		@Override
-		public Storable restore(byte[] repr, Scheme scheme) throws RestoreException
+		public Storable restore(byte[] repr, TypeScheme typeScheme) throws RestoreException
 		{
 			ByteBuffer buffer = ByteBuffer.wrap(repr);
 			ArrayList<Integer> allSep = DBUtil.Separators.findAllSep(repr, DBUtil.Separators.basic);
-			BasicType[] values = new BasicType[scheme.getSize()];
+			BasicType[] values = new BasicType[typeScheme.getSize()];
 			byte[] dst;
 			int len = 0;
 			int currentSize = 0;
 			for (int i = 0; i < values.length; i++)
 			{
-				int typeSize = scheme.getTypeSize(i);
+				int typeSize = typeScheme.getTypeSize(i);
 				if (typeSize != -1)
 					currentSize = typeSize;
 				else
@@ -42,18 +42,18 @@ public class TupleType implements Storable, Comparable
 				}
 				dst = new byte[currentSize];
 				buffer.get(dst);
-				values[i] = ((BasicType) scheme.getFactory(i).restore(dst, scheme));
+				values[i] = ((BasicType) typeScheme.getFactory(i).restore(dst, typeScheme));
 			}
-			TupleType tupleType = new TupleType();
-			tupleType.values = values;
-			return tupleType;
+			Tuple tuple = new Tuple();
+			tuple.values = values;
+			return tuple;
 		}
 	};
 
 	BasicType[] values;
 	int byteSize = 0;
 
-	public TupleType(BasicType[] values)
+	public Tuple(BasicType[] values)
 	{
 		this.values = values;
 		for (BasicType value : values)
@@ -62,7 +62,7 @@ public class TupleType implements Storable, Comparable
 		}
 	}
 
-	private TupleType()
+	private Tuple()
 	{
 	}
 
@@ -86,9 +86,9 @@ public class TupleType implements Storable, Comparable
 	@Override
 	public int compareTo(Object obj)
 	{
-		if (obj instanceof TupleType)
+		if (obj instanceof Tuple)
 		{
-			TupleType o = (TupleType) obj;
+			Tuple o = (Tuple) obj;
 			for (int i = 0; i < values.length; i++)
 			{
 				int compareTo = values[i].compareTo(o.values[i]);

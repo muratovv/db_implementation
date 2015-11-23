@@ -2,7 +2,7 @@ package representation.types;
 
 import org.junit.Assert;
 import org.junit.Test;
-import store.Scheme;
+import representation.scheme.TypeScheme;
 
 public class StrTest
 {
@@ -11,7 +11,7 @@ public class StrTest
 	public void testStore() throws Exception
 	{
 		Str abc = new Str("abc");
-		Assert.assertEquals("abc", ((Str) Str.factory.restore(abc.store(), new Scheme(null))).repr);
+		Assert.assertEquals("abc", ((Str) Str.factory.restore(abc.store(), new TypeScheme(null))).repr);
 	}
 
 	@Test

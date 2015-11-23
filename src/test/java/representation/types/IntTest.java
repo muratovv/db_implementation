@@ -3,7 +3,7 @@ package representation.types;
 
 import org.junit.Assert;
 import org.junit.Test;
-import store.Scheme;
+import representation.scheme.TypeScheme;
 
 public class IntTest
 {
@@ -22,7 +22,7 @@ public class IntTest
 	public void testStoreRestore() throws Exception
 	{
 		byte[] store = anInt1.store();
-		Int restore = ((Int) Int.factory.restore(store, new Scheme(null)));
+		Int restore = ((Int) Int.factory.restore(store, new TypeScheme(null)));
 		Assert.assertTrue(restore.compareTo(new Int(1)) == 0);
 	}
 

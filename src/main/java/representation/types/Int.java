@@ -1,6 +1,6 @@
 package representation.types;
 
-import store.Scheme;
+import representation.scheme.TypeScheme;
 import store.Storable;
 
 import java.nio.ByteBuffer;
@@ -11,7 +11,7 @@ public class Int extends BasicType implements Comparable
 	public static Storable.StoreFactory factory = new StoreFactory()
 	{
 		@Override
-		public Storable restore(byte[] repr, Scheme scheme)
+		public Storable restore(byte[] repr, TypeScheme typeScheme)
 		{
 			ByteBuffer buffer = ByteBuffer.wrap(repr, 0, 4);
 			return new Int(buffer.getInt());
@@ -47,5 +47,17 @@ public class Int extends BasicType implements Comparable
 	public int byteSize()
 	{
 		return Integer.BYTES;
+	}
+
+	@Override
+	public Object data()
+	{
+		return repr;
+	}
+
+	@Override
+	public void setData(Object data)
+	{
+		repr = ((int) data);
 	}
 }

@@ -1,6 +1,7 @@
 package store;
 
 import exceptions.RestoreException;
+import representation.scheme.TypeScheme;
 
 import java.nio.charset.StandardCharsets;
 
@@ -17,6 +18,6 @@ public interface Storable
 
 	abstract class StoreFactory
 	{
-		public abstract Storable restore(byte[] repr, Scheme scheme) throws RestoreException;
+		public abstract Storable restore(byte[] repr, TypeScheme typeScheme) throws RestoreException;
 	}
 }

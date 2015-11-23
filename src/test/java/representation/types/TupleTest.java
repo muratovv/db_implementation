@@ -3,16 +3,16 @@ package representation.types;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import store.Scheme;
+import representation.scheme.TypeScheme;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TupleTypeTest
+public class TupleTest
 {
-	TupleType tupleType = null;
-	Scheme scheme = null;
+	Tuple tuple = null;
+	TypeScheme typeScheme = null;
 
 	@Before
 	public void setUp()
@@ -20,8 +20,8 @@ public class TupleTypeTest
 		ArrayList<Class> classes = new ArrayList<>();
 		classes.add(Int.class);
 		classes.add(Int.class);
-		scheme = new Scheme(classes);
-		tupleType = new TupleType(new BasicType[]{
+		typeScheme = new TypeScheme(classes);
+		tuple = new Tuple(new BasicType[]{
 				new Int(5),
 				new Int(99999)
 		});
@@ -31,16 +31,16 @@ public class TupleTypeTest
 	@org.junit.Test
 	public void testByteSize() throws Exception
 	{
-		Assert.assertEquals(8, tupleType.byteSize);
+		Assert.assertEquals(8, tuple.byteSize);
 
 	}
 
 	@Test
 	public void testStoreRestoreEasy() throws Exception
 	{
-		byte[] store = tupleType.store();
-		TupleType restore = ((TupleType) TupleType.factory.restore(store, scheme));
-		Assert.assertTrue(restore.compareTo(tupleType) == 0);
+		byte[] store = tuple.store();
+		Tuple restore = ((Tuple) Tuple.factory.restore(store, typeScheme));
+		Assert.assertTrue(restore.compareTo(tuple) == 0);
 	}
 
 	@Test
@@ -49,14 +49,14 @@ public class TupleTypeTest
 		ArrayList<Class> classes = new ArrayList<>();
 		classes.add(Str.class);
 		classes.add(Str.class);
-		scheme = new Scheme(classes);
-		tupleType = new TupleType(new BasicType[]{
+		typeScheme = new TypeScheme(classes);
+		tuple = new Tuple(new BasicType[]{
 				new Str("abc"),
 				new Str("99999")
 		});
-		byte[] store = tupleType.store();
-		TupleType restore = ((TupleType) TupleType.factory.restore(store, scheme));
-		Assert.assertTrue(restore.compareTo(tupleType) == 0);
+		byte[] store = tuple.store();
+		Tuple restore = ((Tuple) Tuple.factory.restore(store, typeScheme));
+		Assert.assertTrue(restore.compareTo(tuple) == 0);
 	}
 
 	@Test
