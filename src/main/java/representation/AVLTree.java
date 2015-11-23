@@ -1,5 +1,7 @@
 package representation;
 
+import java.util.ArrayList;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class AVLTree<T extends Comparable<T>>
@@ -72,10 +74,9 @@ public class AVLTree<T extends Comparable<T>>
 		return TreeUtil.balance(current);
 	}
 
-	public MyNode<T> find(T value)
-	{
-		return findRef(root, value);
-	}
+    public MyNode<T> find(T value) {
+        return findRef(root, value);
+    }
 
 	public MyNode<T> getRoot()
 	{
@@ -136,6 +137,16 @@ public class AVLTree<T extends Comparable<T>>
 		return parent;
 	}
 
+
+     void  inOrder (MyNode<T> root, Function<T, Void> map)
+    {
+
+        if(root == null) return;
+        inOrder(root.getLeft(),map);
+        map.apply(root.value);
+        inOrder(root.getRight(),map);
+
+    }
 	<R> void inOrder(MyNode<T> root, Function<T, R> map)
 	{
 		if (root == null) return;
