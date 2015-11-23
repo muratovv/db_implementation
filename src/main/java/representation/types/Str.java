@@ -1,8 +1,10 @@
 package representation.types;
 
+import Utilities.DBUtil;
 import store.Scheme;
 import store.Storable;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.nio.charset.StandardCharsets;
 
 public class Str extends BasicType
 {
@@ -11,31 +13,37 @@ public class Str extends BasicType
 		@Override
 		public Storable restore(byte[] repr, Scheme scheme)
 		{
-			//TODO 22.11.15
-			throw new NotImplementedException();
+			String string = new String(repr, 0, repr.length - 1, StandardCharsets.UTF_8);
+			return new Str(string);
 		}
 	};
+
+	int byteSize;
+
+	public Str(String repr)
+	{
+		this.repr = repr.replace(((char) DBUtil.Separators.basic), ' ');
+		byteSize = this.repr.getBytes(StandardCharsets.UTF_8).length + 1;
+	}
 
 	String repr;
 
 	@Override
 	public byte[] store()
 	{
-		//TODO 22.11.15
-		throw new NotImplementedException();
+		return (repr + (char) DBUtil.Separators.basic).getBytes(StandardCharsets.UTF_8);
 	}
 
 	@Override
 	public int byteSize()
 	{
-		//TODO 22.11.15
-		throw new NotImplementedException();
+		return byteSize;
 	}
 
 	@Override
 	public int compareTo(Object o)
 	{
-		if(o instanceof Str)
+		if (o instanceof Str)
 		{
 			return repr.compareTo(((Str) o).repr);
 		}

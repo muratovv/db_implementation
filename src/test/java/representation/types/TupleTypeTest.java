@@ -31,7 +31,7 @@ public class TupleTypeTest
 	@org.junit.Test
 	public void testByteSize() throws Exception
 	{
-		Assert.assertEquals(10, tupleType.byteSize);
+		Assert.assertEquals(8, tupleType.byteSize);
 
 	}
 
@@ -51,8 +51,8 @@ public class TupleTypeTest
 		classes.add(Str.class);
 		scheme = new Scheme(classes);
 		tupleType = new TupleType(new BasicType[]{
-				new Str(),
-				new Int(99999)
+				new Str("abc"),
+				new Str("99999")
 		});
 		byte[] store = tupleType.store();
 		TupleType restore = ((TupleType) TupleType.factory.restore(store, scheme));

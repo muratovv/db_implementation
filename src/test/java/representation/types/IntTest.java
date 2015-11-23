@@ -4,7 +4,6 @@ package representation.types;
 import org.junit.Assert;
 import org.junit.Test;
 import store.Scheme;
-import store.Storable;
 
 public class IntTest
 {
@@ -30,6 +29,6 @@ public class IntTest
 	@Test
 	public void testByteSize() throws Exception
 	{
-		Assert.assertTrue(anInt1.store().length == Integer.BYTES + 1);
+		Assert.assertTrue(anInt1.store().length == Integer.BYTES);
 	}
 }

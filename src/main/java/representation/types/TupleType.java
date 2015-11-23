@@ -7,6 +7,7 @@ import store.Storable;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Represent tuple type of node
@@ -22,17 +23,24 @@ public class TupleType implements Storable, Comparable
 			ArrayList<Integer> allSep = DBUtil.Separators.findAllSep(repr, DBUtil.Separators.basic);
 			BasicType[] values = new BasicType[scheme.getSize()];
 			byte[] dst;
+			int len = 0;
+			int currentSize = 0;
 			for (int i = 0; i < values.length; i++)
 			{
 				int typeSize = scheme.getTypeSize(i);
 				if (typeSize != -1)
-					dst = new byte[typeSize];
+					currentSize = typeSize;
 				else
 				{
-					final int finalI = i;
-					int len = allSep.stream().filter(integer -> integer > allSep.get(finalI)).findFirst().get();
-					dst = new byte[len - allSep.get(i)];
+					final int finalLen = len;
+					Optional<Integer> first = allSep.stream().filter(sepPosition -> sepPosition > finalLen).findFirst();
+					if (first.isPresent())
+						currentSize = first.get() - len + 1;
+					else
+						currentSize = repr.length - len;
+					len += currentSize;
 				}
+				dst = new byte[currentSize];
 				buffer.get(dst);
 				values[i] = ((BasicType) scheme.getFactory(i).restore(dst, scheme));
 			}

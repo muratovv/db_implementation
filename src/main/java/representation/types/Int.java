@@ -46,6 +46,6 @@ public class Int extends BasicType implements Comparable
 	@Override
 	public int byteSize()
 	{
-		return Integer.BYTES + 1;
+		return Integer.BYTES;
 	}
 }
